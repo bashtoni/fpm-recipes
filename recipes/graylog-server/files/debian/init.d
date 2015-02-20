@@ -17,7 +17,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DESC="Graylog Server"
 NAME=graylog-server
 JAR_FILE=/usr/share/graylog-server/graylog.jar
-DAEMON=/usr/bin/java
 PIDDIR=/var/run/graylog
 PIDFILE=$PIDDIR/$NAME.pid
 DAEMON_LOG_OPTION="-Dlog4j.configuration=file:///etc/graylog/server/log4j.xml"
@@ -27,11 +26,14 @@ RUN=yes
 
 # Exit if the package is not installed
 [ -e "$JAR_FILE" ] || exit 0
-[ -x "$DAEMON" ] || exit 0
 
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
+DAEMON=${JAVA:=/usr/bin/java}
 DAEMON_ARGS="$GRAYLOG_SERVER_JAVA_OPTS $DAEMON_LOG_OPTION -Djava.library.path=/usr/share/graylog-server/lib/sigar -jar $JAR_FILE server -p $PIDFILE -f /etc/graylog/server/server.conf $GRAYLOG_SERVER_ARGS"
+
+[ -x "$DAEMON" ] || exit 0
+
 DAEMON="$GRAYLOG_COMMAND_WRAPPER $DAEMON"
 
 . /lib/init/vars.sh
