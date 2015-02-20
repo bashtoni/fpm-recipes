@@ -43,7 +43,7 @@ class GraylogRadio < FPM::Cookery::Recipe
   end
 
   platforms [:centos] do
-    depends 'java >= 1:1.7.0', 'util-linux-ng'
+    depends 'java >= 1:1.7.0'
 
     config_files '/etc/init.d/graylog-radio',
                  '/etc/sysconfig/graylog-radio'

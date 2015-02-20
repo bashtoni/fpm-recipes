@@ -1,0 +1,12 @@
+[Unit]
+Description=graylog2-server
+After=network.target
+# We should not require mongodb or elasticsearch - these may be running on different machines
+
+[Service]
+Type=simple
+User=graylog
+ExecStart=/usr/bin/graylog2-server.sh
+
+[Install]
+WantedBy=multi-user.target
